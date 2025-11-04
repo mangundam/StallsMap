@@ -48,8 +48,57 @@ document.addEventListener("DOMContentLoaded", async () => {
       tooltip.classList.add("hidden");
     }
   });
+  // 啟用 GPS 持續更新
+  startGPSWatch();
 });
-// 顯示座標
+// ====== GPS 功能 ======
+function startGPSWatch() {
+  if (!navigator.geolocation) {
+    alert("此裝置不支援 GPS 定位");
+    return;
+  }
+
+  // 持續監看位置變化
+  navigator.geolocation.watchPosition(
+    (pos) => {
+      const lat = pos.coords.latitude;
+      const lng = pos.coords.longitude;
+      updateUserPosition(lat, lng);
+    },
+    (err) => {
+      console.warn("定位錯誤:", err.message);
+    },
+    {
+      enableHighAccuracy: true,
+      maximumAge: 1000,
+      timeout: 10000,
+    }
+  );
+}
+
+// 將 GPS 轉換為地圖上的百分比位置
+function updateUserPosition(lat, lng) {
+  const userDot = document.getElementById("user-location");
+  const map = document.getElementById("map");
+
+  // 圖片邊界對應的 GPS 座標
+  const bounds = {
+    top: 25.035162,
+    bottom: 25.034466,
+    left: 121.524102,
+    right: 121.524855,
+  };
+
+  // 緯經度轉換為地圖百分比位置（簡單線性對應）
+  const xPercent = ((lng - bounds.left) / (bounds.right - bounds.left)) * 100;
+  const yPercent = ((bounds.top - lat) / (bounds.top - bounds.bottom)) * 100;
+
+  userDot.style.left = `${xPercent}%`;
+  userDot.style.top = `${yPercent}%`;
+  userDot.style.display = "block";
+}
+
+// 單次顯示座標（可手動呼叫）
 function showLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -66,24 +115,4 @@ function showLocation() {
   } else {
     alert("此裝置不支援GPS定位");
   }
-}
-
-// 將 GPS 轉換為地圖上的百分比位置
-function updateUserPosition(lat, lng) {
-  const userDot = document.getElementById("user-location");
-  const map = document.getElementById("map");
-  const bounds = {
-    top: 25.035162,
-    bottom: 25.034466,
-    left: 121.524102,
-    right: 121.524855,
-  };
-
-  // 緯度、經度轉換為百分比（簡化線性映射）
-  const xPercent = ((lng - bounds.left) / (bounds.right - bounds.left)) * 100;
-  const yPercent = ((bounds.top - lat) / (bounds.top - bounds.bottom)) * 100;
-
-  userDot.style.left = `${xPercent}%`;
-  userDot.style.top = `${yPercent}%`;
-  userDot.style.display = "block";
 }
