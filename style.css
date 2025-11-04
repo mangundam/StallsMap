@@ -68,3 +68,13 @@ h2 {
 .tooltip.hidden {
   display: none;
 }
+.HBL{
+  position: absolute;
+  width: 29%;
+  height: 17%;
+  background: rgba(230, 230, 230, 0.0);
+  border-radius: 0%;
+  cursor: pointer;
+  border: 0px solid #888;
+  transition: 0.2s;
+}

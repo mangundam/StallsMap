@@ -22,7 +22,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     el.style.left = stall.x + "%";
     el.style.top = stall.y + "%";
     el.title = stall.name;
-
+	if (stall.name=="HBL投籃機"){
+		el.classList.add("HBL");
+	}
     el.addEventListener("click", (e) => {
       tooltip.innerHTML = `
         <strong>${stall.name}</strong><br>
@@ -79,20 +81,30 @@ function startGPSWatch() {
 // 將 GPS 轉換為地圖上的百分比位置
 function updateUserPosition(lat, lng) {
   const userDot = document.getElementById("user-location");
-  const map = document.getElementById("map");
 
-  // 圖片邊界對應的 GPS 座標
-  const bounds = {
-    top: 25.035162,
-    bottom: 25.034466,
-    left: 121.524102,
-    right: 121.524855,
+  // 四個角的 GPS 座標
+  const gps = {
+    topLeft: { lat: 25.035162, lng: 121.524405 },
+    topRight: { lat: 25.035162, lng: 121.524855 },
+    bottomLeft: { lat: 25.034466, lng: 121.524102 },
+    bottomRight: { lat: 25.034466, lng: 121.524647 },
   };
 
-  // 緯經度轉換為地圖百分比位置（簡單線性對應）
-  const xPercent = ((lng - bounds.left) / (bounds.right - bounds.left)) * 100;
-  const yPercent = ((bounds.top - lat) / (bounds.top - bounds.bottom)) * 100;
+  // 將 GPS 轉為平面座標（簡化，視為線性投影）
+  const xRatio = (lng - gps.bottomLeft.lng) / (gps.bottomRight.lng - gps.bottomLeft.lng);
+  const yRatio = (lat - gps.bottomLeft.lat) / (gps.topLeft.lat - gps.bottomLeft.lat);
 
+  // 套用旋轉補償（線性插值）
+  const topLng = gps.topLeft.lng + (gps.topRight.lng - gps.topLeft.lng) * xRatio;
+  const bottomLng = gps.bottomLeft.lng + (gps.bottomRight.lng - gps.bottomLeft.lng) * xRatio;
+  const leftLat = gps.bottomLeft.lat + (gps.topLeft.lat - gps.bottomLeft.lat) * yRatio;
+  const rightLat = gps.bottomRight.lat + (gps.topRight.lat - gps.bottomRight.lat) * yRatio;
+
+  // X/Y 百分比
+  const xPercent = ((lng - bottomLng) / (topLng - bottomLng)) * 100;
+  const yPercent = (1 - ((lat - leftLat) / (rightLat - leftLat))) * 100;
+
+  // 更新畫面
   userDot.style.left = `${xPercent}%`;
   userDot.style.top = `${yPercent}%`;
   userDot.style.display = "block";
