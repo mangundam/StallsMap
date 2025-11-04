@@ -48,18 +48,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       tooltip.classList.add("hidden");
     }
   });
-
-  // GPS 定位
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((pos) => {
-      const { latitude, longitude } = pos.coords;
-      const userDot = document.getElementById("user-location");
-      // 模擬放置在地圖底部中間
-      userDot.style.left = "50%";
-      userDot.style.top = "90%";
-      userDot.style.display = "block";
-    });
-  }
 });
 // 顯示座標
 function showLocation() {
