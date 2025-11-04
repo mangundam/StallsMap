@@ -29,8 +29,8 @@ h2 {
 
 .stall {
   position: absolute;
-  width: 50px;
-  height: 30px;
+  width: 6%;
+  height: 5%;
   background: rgba(230, 230, 230, 0.0);
   border-radius: 0%;
   cursor: pointer;
@@ -38,7 +38,7 @@ h2 {
   transition: 0.2s;
 }
 .stall:hover {
-  background: rgba(255, 200, 0, 0.9);
+  background: rgba(230, 230, 230, 0.4);
   transform: scale(1.1);
 }
 
