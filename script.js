@@ -24,8 +24,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       `;
       //tooltip.style.left = `calc(${stall.x}% + 3%)`;
       //tooltip.style.top = `calc(${stall.y}% + 3%)`;
-	  tooltip.style.left = `calc(40%)`;
-      tooltip.style.top = `calc(40%)`;
+	  //tooltip.style.left = `calc(40%)`;
+      //tooltip.style.top = `calc(40%)`;
+	  tooltip.style.left = stall.x + "%";
+	  //tooltip.style.top = `calc(${stall.y}%-10%)`;
       tooltip.classList.remove("hidden");
     });
 
@@ -51,3 +53,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 });
+function showLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const latitude = pos.coords.latitude;
+        const longitude = pos.coords.longitude;
+        alert(`目前座標：\n緯度：${latitude}\n經度：${longitude}`);
+      },
+      (err) => {
+        alert("無法取得定位：" + err.message);
+      }
+    );
+  } else {
+    alert("此裝置不支援GPS定位");
+  }
+}
