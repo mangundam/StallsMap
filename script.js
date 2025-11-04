@@ -34,10 +34,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       `;
       //tooltip.style.left = `calc(${stall.x}% + 3%)`;
       //tooltip.style.top = `calc(${stall.y}% + 3%)`;
-	  //tooltip.style.left = `calc(40%)`;
-      //tooltip.style.top = `calc(40%)`;
 	  tooltip.style.left = stall.x + "%";
 	  //tooltip.style.top = `calc(${stall.y}%-10%)`;
+	  if (stall.name=="HBL投籃機"){
+		tooltip.classList.add("HBLtooltip");
+	  }
       tooltip.classList.remove("hidden");
     });
 
