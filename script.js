@@ -22,8 +22,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         <b>販賣類別：</b>${stall.type}<br>
         <b>販賣內容：</b>${stall.items}
       `;
-      tooltip.style.left = `calc(${stall.x}% + 3%)`;
-      tooltip.style.top = `calc(${stall.y}% + 3%)`;
+      //tooltip.style.left = `calc(${stall.x}% + 3%)`;
+      //tooltip.style.top = `calc(${stall.y}% + 3%)`;
+	  tooltip.style.left = `calc(40%)`;
+      tooltip.style.top = `calc(40%)`;
       tooltip.classList.remove("hidden");
     });
 
