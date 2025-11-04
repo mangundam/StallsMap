@@ -28,9 +28,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     el.addEventListener("click", (e) => {
       tooltip.innerHTML = `
         <strong>${stall.name}</strong><br>
-        <b>申請班級：</b>${stall.class}<br>
-        <b>販賣類別：</b>${stall.type}<br>
-        <b>販賣內容：</b>${stall.items}
+        <b>班級：</b>${stall.class}<br>
+        <b>類別：</b>${stall.type}<br>
+        <b>內容：</b>${stall.items}
       `;
       //tooltip.style.left = `calc(${stall.x}% + 3%)`;
       //tooltip.style.top = `calc(${stall.y}% + 3%)`;
